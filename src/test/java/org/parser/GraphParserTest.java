@@ -32,12 +32,12 @@ public class GraphParserTest {
 
     @Test
     public void testOutputGraph() throws IOException {
-        String expectedFilePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/expected.txt";
+        String expectedFilePath = System.getProperty("user.dir")  + "/src/test/resources/expected.txt";
 
-        String inputFilePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/input.dot";
+        String inputFilePath = System.getProperty("user.dir")  + "/src/test/resources/input.dot";
         parser.parseGraph(inputFilePath); // Load the test graph
         // Execute the outputGraph method
-        String outputFilePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/output.txt";
+        String outputFilePath = System.getProperty("user.dir")  + "/src/test/resources/output.txt";
         parser.outputGraph(outputFilePath);
 
         // Read the actual output from the generated "output.dot" file
@@ -52,7 +52,7 @@ public class GraphParserTest {
 
     @Test
     public void testGetNumberOfNodes() {
-        String filePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/test.dot";
+        String filePath = System.getProperty("user.dir")  + "/src/test/resources/test.dot";
         parser.parseGraph(filePath); // Load a test graph
         int numberOfNodes = parser.getNumberOfNodes();
         assertEquals(5, numberOfNodes);
@@ -60,7 +60,7 @@ public class GraphParserTest {
 
     @Test
     public void testGetNodeLabels() {
-        String filePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/test.dot";
+        String filePath = System.getProperty("user.dir")  + "/src/test/resources/test.dot";
         parser.parseGraph(filePath); // Load a test graph
         Set<String> nodeLabels = parser.getNodeLabels();
         assertTrue(nodeLabels.contains("A"));
@@ -69,14 +69,15 @@ public class GraphParserTest {
 
     @Test
     public void testGetNumberOfEdges() {
-        String filePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/test.dot";
+        String filePath = System.getProperty("user.dir")  + "/src/test/resources/test.dot";
         parser.parseGraph(filePath); // Load a test graph
         int numberOfEdges = parser.getNumberOfEdges();
         assertEquals(6, numberOfEdges);
     }
     @Test
     public void testGetEdges() {
-        String filePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/test.dot";
+        String filePath = System.getProperty("user.dir")  + "/src/test/resources/test.dot";
+        System.out.println(filePath);
         parser.parseGraph(filePath); // Load a test graph
         Set<String> edges = parser.getEdges();
         assertTrue(edges.contains("A -> B"));
@@ -160,12 +161,12 @@ public class GraphParserTest {
 
     @Test
     public void testOutputDOTGraph() throws IOException {
-        String expectedFilePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/expected.dot";
+        String expectedFilePath = System.getProperty("user.dir")  + "/src/test/resources/expected.dot";
 
-        String inputFilePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/input.dot";
+        String inputFilePath = System.getProperty("user.dir")  + "/src/test/resources/input.dot";
         parser.parseGraph(inputFilePath); // Load the test graph
         // Execute the outputDOTGraph method
-        String outputFilePath = System.getProperty("user.dir")  + "/CSE-464-2023-tchen128/src/test/resources/output.dot";
+        String outputFilePath = System.getProperty("user.dir")  + "/src/test/resources/output.dot";
         parser.outputDOTGraph(outputFilePath);
 
         // Read the actual output from the generated "output.dot" file
