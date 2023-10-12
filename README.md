@@ -1,4 +1,4 @@
-# welldonepig-CSE-464-2023-tchen128
+# CSE-464-2023-tchen128
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ These instructions will help you get the project up and running on your local ma
 1. Clone the repository to your local machine:
 
     ```bash
-    git clone https://github.com/welldonepig/welldonepig-CSE-464-2023-tchen128.git
+    git clone https://github.com/welldonepig/CSE-464-2023-tchen128.git
     ```
 
 2. Navigate to the project directory:
@@ -49,19 +49,19 @@ After you have successfully built the project, you can run the application using
 ## Screenshots
 
 ### Input.dot file screenshot
-![Input-dot-file](https://github.com/welldonepig/welldonepig-CSE-464-2023-tchen128/blob/main/screenshots/Input-dot-file.png)
+![Input-dot-file](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Input-dot-file.png)
 
 ### Feature-1 screenshot
-![Feature-1](https://github.com/welldonepig/welldonepig-CSE-464-2023-tchen128/blob/main/screenshots/Feature-1.png)
+![Feature-1](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-1.png)
 
 ### Feature-2 screenshot
-![Feature-2](https://github.com/welldonepig/welldonepig-CSE-464-2023-tchen128/blob/main/screenshots/Feature-2.png)
+![Feature-2](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-2.png)
 
 ### Feature-3 screenshot
-![Feature-3](https://github.com/welldonepig/welldonepig-CSE-464-2023-tchen128/blob/main/screenshots/Feature-3.png)
+![Feature-3](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-3.png)
 
 ### Feature-4 screenshots (Output .dot and .png files)
-![Feature-4-output-dot-file](https://github.com/welldonepig/welldonepig-CSE-464-2023-tchen128/blob/main/screenshots/Feature-4-output-dot-file.png)
+![Feature-4-output-dot-file](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-4-output-dot-file.png)
 
-![Feature-4-output-png-file](https://github.com/welldonepig/welldonepig-CSE-464-2023-tchen128/blob/main/screenshots/Feature-4-output-png-file.png)
+![Feature-4-output-png-file](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-4-output-png-file.png)
 
