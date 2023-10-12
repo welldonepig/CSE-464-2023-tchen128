@@ -56,5 +56,27 @@
     </dependency>
 </dependencies>
 
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version> <!-- Use the appropriate version -->
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <mainClass>org.parser.GraphParser</mainClass>
+                <!-- Additional configuration options if needed -->
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+
 </project>
 
