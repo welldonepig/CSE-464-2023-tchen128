@@ -32,13 +32,41 @@ public class GraphParser {
                     return new DefaultEdge();
                 }
             });
-
+            printDotFileContents(file);
             importer.importGraph(graph, file);
+        } catch(NoSuchElementException e) {
+            e.printStackTrace();
         } catch (ImportException e) {
             e.printStackTrace();
         }
 
         return graph;
+    }
+
+    public void outputGraph(String filePath) {
+        File file = new File(filePath);
+
+        try (PrintWriter writer = new PrintWriter(file)) {
+            writer.println("digraph G {");
+            for (DefaultEdge edge : graph.edgeSet()) {
+                String source = graph.getEdgeSource(edge);
+                String target = graph.getEdgeTarget(edge);
+                writer.println("    " + source + " -> " + target + ";");
+            }
+            writer.println("}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void printDotFileContents(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getNumberOfNodes() {
@@ -62,23 +90,6 @@ public class GraphParser {
         }
         return edges;
     }
-
-    public void outputGraph(String filePath) {
-        File file = new File(filePath);
-
-        try (PrintWriter writer = new PrintWriter(file)) {
-            writer.println("digraph G {");
-            for (DefaultEdge edge : graph.edgeSet()) {
-                String source = graph.getEdgeSource(edge);
-                String target = graph.getEdgeTarget(edge);
-                writer.println("    " + source + " -> " + target + ";");
-            }
-            writer.println("}");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -123,10 +134,44 @@ public class GraphParser {
         return this.graph;
     }
 
-    public static void main(String[] args) {
+    public void outputDOTGraph(String filePath) {
+        File file = new File(filePath);
+
+        try (PrintWriter writer = new PrintWriter(file)) {
+            writer.println("digraph G {");
+            for (DefaultEdge edge : graph.edgeSet()) {
+                String source = graph.getEdgeSource(edge);
+                String target = graph.getEdgeTarget(edge);
+                writer.println("    " + source + " -> " + target + ";");
+            }
+            writer.println("}");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void outputGraphics(String dotPath, String pngPath) throws IOException {
+        String command = "dot -Tpng " + dotPath + " -o " + pngPath;
+        Process process = Runtime.getRuntime().exec(command);
+
+        // Wait for the process to complete
+        try {
+            process.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) throws Exception{
+
+        System.out.println("");
 
         GraphParser parser = new GraphParser();
         parser.parseGraph("input.dot");
+
+        parser.outputGraph("output.txt");
+
+        System.out.println(parser.toString());
 
         // Add a single node
         parser.addNode("X");
@@ -135,13 +180,18 @@ public class GraphParser {
         String[] newNodes = {"Y", "Z", "X"}; // "X" is a duplicate
         parser.addNodes(newNodes);
 
+        System.out.println(parser.toString());
+
+
         // Add a single edge
         parser.addEdge("X", "Y");
         parser.addEdge("X", "Y"); // This will print a message about a duplicate edge
 
         System.out.println(parser.toString());
 
-        parser.outputGraph("output.dot");
+        parser.outputDOTGraph("output.dot");
+
+        parser.outputGraphics("output.dot", "output.png");
 
     }
 }
