@@ -161,6 +161,38 @@ public class GraphParser {
         }
     }
 
+    public Path graphSearch(String src, String dst) {
+        Queue<String> queue = new LinkedList<>();
+        Map<String, String> parentMap = new HashMap<>();
+        Set<String> visited = new HashSet<>();
+        queue.add(src);
+        visited.add(src);
+
+        while (!queue.isEmpty()) {
+            String currentNode = queue.poll();
+            if (currentNode.equals(dst)) {
+                Path path = new Path();
+                while (currentNode != null) {
+                    path.addNode(currentNode);
+                    currentNode = parentMap.get(currentNode);
+                }
+                Collections.reverse(path.getNodes());
+                return path;
+            }
+
+            Set<DefaultEdge> outgoingEdges = graph.outgoingEdgesOf(currentNode);
+            for (DefaultEdge edge : outgoingEdges) {
+                String edgeTarget = graph.getEdgeTarget(edge);
+                if (!visited.contains(edgeTarget)) {
+                    queue.add(edgeTarget);
+                    parentMap.put(edgeTarget, currentNode);
+                    visited.add(edgeTarget);
+                }
+            }
+        }
+        return null;
+    }
+
     public Graph getGraph() {
         return this.graph;
     }
