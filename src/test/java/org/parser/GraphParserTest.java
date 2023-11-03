@@ -27,7 +27,7 @@ public class GraphParserTest {
 
     @Test
     public void testParseGraph() {
-       DirectedGraph<String, DefaultEdge> graph = parser.parseGraph("test.dot");
+        DirectedGraph<String, DefaultEdge> graph = parser.parseGraph(System.getProperty("user.dir") + "/src/test/resources/test.dot");
         assertNotNull(graph);
     }
 
