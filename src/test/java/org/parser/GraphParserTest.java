@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -177,6 +178,76 @@ public class GraphParserTest {
 
         // Compare the expected and actual outputs
         Assertions.assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testRemoveNode() {
+        String[] nodes = {"A", "B", "C", "D"};
+        parser.addNodes(nodes);
+        parser.removeNode("A");
+        assertEquals(3, parser.getNumberOfNodes());
+        assertFalse(parser.getNodeLabels().contains("A"));
+        assertTrue(parser.getNodeLabels().contains("B"));
+        assertTrue(parser.getNodeLabels().contains("C"));
+        assertTrue(parser.getNodeLabels().contains("D"));
+    }
+
+    @Test
+    public void testRemoveNonExistentNode() {
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class,
+                () -> parser.removeNode("C"));
+        assertEquals("Node with label 'C' does not exist in the graph.", exception.getMessage());
+    }
+
+    @Test
+    void testRemoveNodes() {
+        String[] nodes = {"A", "B", "C", "D"};
+        String[] removeNodes = {"A", "D"};
+        parser.addNodes(nodes);
+        parser.removeNodes(removeNodes);
+        assertEquals(2, parser.getNumberOfNodes());
+        assertFalse(parser.getNodeLabels().contains("A"));
+        assertFalse(parser.getNodeLabels().contains("D"));
+        assertTrue(parser.getNodeLabels().contains("B"));
+        assertTrue(parser.getNodeLabels().contains("C"));
+    }
+
+    @Test
+    public void testRemoveNonExistentNodeInListNodes() {
+        String[] nodes = {"A", "B", "C", "D"};
+        String[] removeNodes = {"E", "K"};
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class,
+                () -> parser.removeNodes(removeNodes));
+        assertEquals("Node with label 'E' does not exist in the graph.", exception.getMessage());
+    }
+
+    @Test
+    void removeEdge() {
+        parser.addNode("A");
+        parser.addNode("B");
+        parser.addEdge("A", "B");
+        parser.removeEdge("A", "B");
+        assertFalse(parser.getGraph().containsEdge("A", "B"));
+        assertEquals(2, parser.getGraph().vertexSet().size());
+        assertEquals(0, parser.getGraph().edgeSet().size());
+    }
+
+    @Test
+    public void testRemoveNonExistentEdge() {
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class,
+                () -> parser.removeEdge("A", "C"));
+        assertEquals("One or both of the nodes do not exist in the graph.", exception.getMessage());
+    }
+
+    @Test
+    public void testRemoveNonExistentEdgeBetweenExistingNodes() {
+        parser.addNode("A");
+        parser.addNode("B");
+        parser.addNode("C");
+        parser.addEdge("A", "B");
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class,
+                () -> parser.removeEdge("A", "C"));
+        assertEquals("Edge (A -> C) does not exist in the graph.", exception.getMessage());
     }
 
     private String readFileContent(String filePath) throws IOException {

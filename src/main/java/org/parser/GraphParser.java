@@ -115,6 +115,22 @@ public class GraphParser {
         }
     }
 
+    // Remove node
+    public void removeNode(String label) throws NoSuchElementException {
+        if (graph.containsVertex(label)) {
+            graph.removeVertex(label);
+        } else {
+            throw new NoSuchElementException("Node with label '" + label + "' does not exist in the graph.");
+        }
+    }
+
+    // Remove list of nodes
+    public void removeNodes(String[] labels) throws NoSuchElementException {
+        for (String label : labels) {
+            removeNode(label);
+        }
+    }
+
     // Add an edge and check for duplicate edges
     public void addEdge(String srcLabel, String dstLabel) {
         if (graph.containsVertex(srcLabel) && graph.containsVertex(dstLabel)) {
@@ -127,6 +143,21 @@ public class GraphParser {
             }
         } else {
             System.out.println("One or both of the nodes do not exist in the graph.");
+        }
+    }
+
+    // Remove edge node
+    public void removeEdge(String srcLabel, String dstLabel) {
+        if (graph.containsVertex(srcLabel) && graph.containsVertex(dstLabel)) {
+            DefaultEdge edgeToRemove = graph.getEdge(srcLabel, dstLabel);
+            if (edgeToRemove != null) {
+                graph.removeEdge(edgeToRemove);
+                System.out.println("Edge (" + srcLabel + " -> " + dstLabel + ") removed.");
+            } else {
+                throw new NoSuchElementException("Edge (" + srcLabel + " -> " + dstLabel + ") does not exist in the graph.");
+            }
+        } else {
+            throw new NoSuchElementException("One or both of the nodes do not exist in the graph.");
         }
     }
 
