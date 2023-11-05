@@ -46,22 +46,56 @@ After you have successfully built the project, you can run the application using
 
     mvn test
 
-## Screenshots
+## Instruction And Example
 
-### Input.dot file screenshot
-![Input-dot-file](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Input-dot-file.png)
+**1. Run these test cases in GraphParserTest.java to test 3 new API**
+- testRemoveNode 
+- testRemoveNonExistentNode
+- testRemoveNodes
+- testRemoveNonExistentNodeInListNodes
+- removeEdge
+- testRemoveNonExistentEdge
+- testRemoveNonExistentEdgeBetweenExistingNodes
 
-### Feature-1 screenshot
-![Feature-1](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-1.png)
+**removeNode(String label)**  
+  Input:  
+![](screenshots/removeNode-input.png)  
+  Output:  
+![](screenshots/removeNode-output.png)  
 
-### Feature-2 screenshot
-![Feature-2](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-2.png)
+**removeNodes(String[] labels)**  
+Input:  
+![](screenshots/removeNodes-input.png)  
+Output:  
+![](screenshots/removeNodes-output.png)  
 
-### Feature-3 screenshot
-![Feature-3](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-3.png)
+**removeEdge(String srcLabel, String dstLabel)**  
+Input:  
+![](screenshots/removeEdge-input.png)  
+Output:   
+![](screenshots/removeEdge-output.png)  
 
-### Feature-4 screenshots (Output .dot and .png files)
-![Feature-4-output-dot-file](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-4-output-dot-file.png)
+**2. Link and picture for GitHub Action integrated into repository**  
 
-![Feature-4-output-png-file](https://github.com/welldonepig/CSE-464-2023-tchen128/blob/main/screenshots/Feature-4-output-png-file.png)
+![](screenshots/Github action.png)
 
+
+Link GitHub Action: [GitHub Action auto run](https://github.com/welldonepig/CSE-464-2023-tchen128/actions/runs/6743321937)  
+Link commit: [commit](https://github.com/welldonepig/CSE-464-2023-tchen128/commit/711db0c051950d74eec4acfedb8b2f555e7ffd89)
+
+**3. BFS**  
+Link PR: [BFS](https://github.com/welldonepig/CSE-464-2023-tchen128/pull/1)  
+Input:  
+![](screenshots/bfs-input.png)
+Output:   
+![](screenshots/bfs-output.png)
+
+**4. DFS**  
+Link PR: [DFS](https://github.com/welldonepig/CSE-464-2023-tchen128/pull/2)  
+Input:  
+![](screenshots/dfs-input.png)
+Output:   
+![](screenshots/dfs-output.png)  
+
+**5. Merge bfs then merge dfs branch change search api with enum Algorithm**   
+[Link resolve conflict and merge](https://github.com/welldonepig/CSE-464-2023-tchen128/commit/d22dbbcc08879a94d73d11deb318d0776e9d846b)
