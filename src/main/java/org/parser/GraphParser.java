@@ -7,8 +7,12 @@ import org.jgrapht.io.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GraphParser {
+
+    private static final Logger logger = Logger.getLogger(GraphParser.class.getName());
 
     private DirectedGraph<String, DefaultEdge> graph;
 
@@ -34,10 +38,8 @@ public class GraphParser {
             });
             printDotFileContents(file);
             importer.importGraph(graph, file);
-        } catch(NoSuchElementException e) {
-            e.printStackTrace();
-        } catch (ImportException e) {
-            e.printStackTrace();
+        } catch(NoSuchElementException | ImportException e) {
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
 
         return graph;
@@ -55,7 +57,7 @@ public class GraphParser {
             }
             writer.println("}");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
     }
     public void printDotFileContents(File file) {
@@ -65,7 +67,7 @@ public class GraphParser {
                 System.out.println(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
     }
 
@@ -231,22 +233,6 @@ public class GraphParser {
         return this.graph;
     }
 
-    public void outputDOTGraph(String filePath) {
-        File file = new File(filePath);
-
-        try (PrintWriter writer = new PrintWriter(file)) {
-            writer.println("digraph G {");
-            for (DefaultEdge edge : graph.edgeSet()) {
-                String source = graph.getEdgeSource(edge);
-                String target = graph.getEdgeTarget(edge);
-                writer.println("    " + source + " -> " + target + ";");
-            }
-            writer.println("}");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void outputGraphics(String dotPath, String pngPath) throws IOException {
         String command = "dot -Tpng " + dotPath + " -o " + pngPath;
         Process process = Runtime.getRuntime().exec(command);
@@ -255,7 +241,7 @@ public class GraphParser {
         try {
             process.waitFor();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
     }
 
@@ -268,7 +254,7 @@ public class GraphParser {
 
         parser.outputGraph("output.txt");
 
-        System.out.println(parser.toString());
+        System.out.println(parser);
 
         // Add a single node
         parser.addNode("X");
@@ -277,7 +263,7 @@ public class GraphParser {
         String[] newNodes = {"Y", "Z", "X"}; // "X" is a duplicate
         parser.addNodes(newNodes);
 
-        System.out.println(parser.toString());
+        System.out.println(parser);
 
 
         // Add a single edge
@@ -286,9 +272,8 @@ public class GraphParser {
 
         System.out.println(parser.toString());
 
-        parser.outputDOTGraph("output.dot");
+        parser.outputGraph("output.dot");
 
-        parser.outputGraphics("output.dot", "output.png");
-
+        outputGraphics("output.dot", "output.png");
     }
 }
