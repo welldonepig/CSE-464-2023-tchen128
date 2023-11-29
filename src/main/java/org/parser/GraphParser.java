@@ -169,6 +169,8 @@ public class GraphParser {
             searchStrategy = new BfsStrategy(new BfsAlgo(graph));
         } else if (algo == Algorithm.DFS) {
             searchStrategy = new DfsStrategy(new DfsAlgo(graph));
+        } else if (algo == Algorithm.RANDOM) {
+            searchStrategy = new RandomWalkStrategy(new RandomWalkAlgo(graph));
         } else {
             return null;
         }
@@ -192,34 +194,15 @@ public class GraphParser {
     }
 
     public static void main(String[] args) throws Exception{
-
-        System.out.println("");
-
         GraphParser parser = new GraphParser();
-        parser.parseGraph("input.dot");
-
-        parser.outputGraph("output.txt");
-
-        System.out.println(parser);
-
-        // Add a single node
-        parser.addNode("X");
-
-        // Add a list of nodes
-        String[] newNodes = {"Y", "Z", "X"}; // "X" is a duplicate
-        parser.addNodes(newNodes);
-
-        System.out.println(parser);
-
-
-        // Add a single edge
-        parser.addEdge("X", "Y");
-        parser.addEdge("X", "Y"); // This will print a message about a duplicate edge
-
-        System.out.println(parser.toString());
-
-        parser.outputGraph("output.dot");
-
-        outputGraphics("output.dot", "output.png");
+        parser.parseGraph("input2.dot");
+        Path res = parser.graphSearch("a", "c", Algorithm.RANDOM);
+        System.out.println("Path:" + res);
+        System.out.println("--------------------------------");
+        Path res2 = parser.graphSearch("a", "c", Algorithm.RANDOM);
+        System.out.println("Path:" + res2);
+        System.out.println("--------------------------------");
+        Path res3 = parser.graphSearch("a", "c", Algorithm.RANDOM);
+        System.out.println("Path:" + res3);
     }
 }
