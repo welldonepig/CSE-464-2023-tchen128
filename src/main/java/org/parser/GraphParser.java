@@ -164,12 +164,15 @@ public class GraphParser {
     }
 
     public Path graphSearch(String src, String dst, Algorithm algo) {
-        if(algo == Algorithm.BFS) {
-
+        SearchStrategy searchStrategy;
+        if (algo == Algorithm.BFS) {
+            searchStrategy = new BfsStrategy(new BfsAlgo(graph));
         } else if (algo == Algorithm.DFS) {
-           
+            searchStrategy = new DfsStrategy(new DfsAlgo(graph));
+        } else {
+            return null;
         }
-        return null;
+        return searchStrategy.executeSearch(src, dst);
     }
 
     public Graph getGraph() {
