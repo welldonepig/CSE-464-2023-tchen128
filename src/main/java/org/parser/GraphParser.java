@@ -165,66 +165,9 @@ public class GraphParser {
 
     public Path graphSearch(String src, String dst, Algorithm algo) {
         if(algo == Algorithm.BFS) {
-            Queue<String> queue = new LinkedList<>();
-            Map<String, String> parentMap = new HashMap<>();
-            Set<String> visited = new HashSet<>();
-            queue.add(src);
-            visited.add(src);
 
-            while (!queue.isEmpty()) {
-                String currentNode = queue.poll();
-                if (currentNode.equals(dst)) {
-                    Path path = new Path();
-                    while (currentNode != null) {
-                        path.addNode(currentNode);
-                        currentNode = parentMap.get(currentNode);
-                    }
-                    Collections.reverse(path.getNodes());
-                    return path;
-                }
-
-                Set<DefaultEdge> outgoingEdges = graph.outgoingEdgesOf(currentNode);
-                for (DefaultEdge edge : outgoingEdges) {
-                    String edgeTarget = graph.getEdgeTarget(edge);
-                    if (!visited.contains(edgeTarget)) {
-                        queue.add(edgeTarget);
-                        parentMap.put(edgeTarget, currentNode);
-                        visited.add(edgeTarget);
-                    }
-                }
-            }
-            return null;
         } else if (algo == Algorithm.DFS) {
-            Deque<String> stack = new LinkedList<>();
-            Map<String, String> parentMap = new HashMap<>();
-            Set<String> visited = new HashSet<>();
-
-            stack.push(src);
-            visited.add(src);
-
-            while (!stack.isEmpty()) {
-                String currentNode = stack.pop();
-                if (currentNode.equals(dst)) {
-                    Path path = new Path();
-                    while (currentNode != null) {
-                        path.addNode(currentNode);
-                        currentNode = parentMap.get(currentNode);
-                    }
-                    Collections.reverse(path.getNodes());
-                    return path;
-                }
-
-                Set<DefaultEdge> outgoingEdges = graph.outgoingEdgesOf(currentNode);
-                for (DefaultEdge edge : outgoingEdges) {
-                    String edgeTarget = graph.getEdgeTarget(edge);
-                    if (!visited.contains(edgeTarget)) {
-                        stack.push(edgeTarget);
-                        parentMap.put(edgeTarget, currentNode);
-                        visited.add(edgeTarget);
-                    }
-                }
-            }
-            return null;
+           
         }
         return null;
     }
