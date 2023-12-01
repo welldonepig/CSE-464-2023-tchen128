@@ -193,9 +193,19 @@ public class GraphParser {
         }
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         GraphParser parser = new GraphParser();
         parser.parseGraph("input2.dot");
+
+        // BFS
+        Path resBfs = parser.graphSearch("a", "c", Algorithm.BFS);
+        System.out.println("BFS find path:" + resBfs);
+
+        // DFS
+        Path resDfs = parser.graphSearch("a", "c", Algorithm.DFS);
+        System.out.println("DFS find path:" + resDfs);
+
+        // Random walk
         Path res = parser.graphSearch("a", "c", Algorithm.RANDOM);
         System.out.println("Path:" + res);
         System.out.println("--------------------------------");

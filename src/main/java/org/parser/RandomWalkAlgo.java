@@ -28,7 +28,7 @@ public class RandomWalkAlgo extends GraphSearchTemplate {
 
     @Override
     public boolean queueIsEmpty() {
-        return false;
+        return visited.size() == graph.vertexSet().size();
     }
 
     @Override
