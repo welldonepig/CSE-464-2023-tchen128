@@ -7,8 +7,12 @@ import org.jgrapht.io.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GraphParser {
+
+    private static final Logger logger = Logger.getLogger(GraphParser.class.getName());
 
     private DirectedGraph<String, DefaultEdge> graph;
 
@@ -34,10 +38,8 @@ public class GraphParser {
             });
             printDotFileContents(file);
             importer.importGraph(graph, file);
-        } catch(NoSuchElementException e) {
-            e.printStackTrace();
-        } catch (ImportException e) {
-            e.printStackTrace();
+        } catch(NoSuchElementException | ImportException e) {
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
 
         return graph;
@@ -55,7 +57,7 @@ public class GraphParser {
             }
             writer.println("}");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
     }
     public void printDotFileContents(File file) {
@@ -65,7 +67,7 @@ public class GraphParser {
                 System.out.println(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
     }
 
@@ -162,89 +164,21 @@ public class GraphParser {
     }
 
     public Path graphSearch(String src, String dst, Algorithm algo) {
-        if(algo == Algorithm.BFS) {
-            Queue<String> queue = new LinkedList<>();
-            Map<String, String> parentMap = new HashMap<>();
-            Set<String> visited = new HashSet<>();
-            queue.add(src);
-            visited.add(src);
-
-            while (!queue.isEmpty()) {
-                String currentNode = queue.poll();
-                if (currentNode.equals(dst)) {
-                    Path path = new Path();
-                    while (currentNode != null) {
-                        path.addNode(currentNode);
-                        currentNode = parentMap.get(currentNode);
-                    }
-                    Collections.reverse(path.getNodes());
-                    return path;
-                }
-
-                Set<DefaultEdge> outgoingEdges = graph.outgoingEdgesOf(currentNode);
-                for (DefaultEdge edge : outgoingEdges) {
-                    String edgeTarget = graph.getEdgeTarget(edge);
-                    if (!visited.contains(edgeTarget)) {
-                        queue.add(edgeTarget);
-                        parentMap.put(edgeTarget, currentNode);
-                        visited.add(edgeTarget);
-                    }
-                }
-            }
-            return null;
+        SearchStrategy searchStrategy;
+        if (algo == Algorithm.BFS) {
+            searchStrategy = new BfsStrategy(new BfsAlgo(graph));
         } else if (algo == Algorithm.DFS) {
-            Deque<String> stack = new LinkedList<>();
-            Map<String, String> parentMap = new HashMap<>();
-            Set<String> visited = new HashSet<>();
-
-            stack.push(src);
-            visited.add(src);
-
-            while (!stack.isEmpty()) {
-                String currentNode = stack.pop();
-                if (currentNode.equals(dst)) {
-                    Path path = new Path();
-                    while (currentNode != null) {
-                        path.addNode(currentNode);
-                        currentNode = parentMap.get(currentNode);
-                    }
-                    Collections.reverse(path.getNodes());
-                    return path;
-                }
-
-                Set<DefaultEdge> outgoingEdges = graph.outgoingEdgesOf(currentNode);
-                for (DefaultEdge edge : outgoingEdges) {
-                    String edgeTarget = graph.getEdgeTarget(edge);
-                    if (!visited.contains(edgeTarget)) {
-                        stack.push(edgeTarget);
-                        parentMap.put(edgeTarget, currentNode);
-                        visited.add(edgeTarget);
-                    }
-                }
-            }
+            searchStrategy = new DfsStrategy(new DfsAlgo(graph));
+        } else if (algo == Algorithm.RANDOM) {
+            searchStrategy = new RandomWalkStrategy(new RandomWalkAlgo(graph));
+        } else {
             return null;
         }
-        return null;
+        return searchStrategy.executeSearch(src, dst);
     }
 
     public Graph getGraph() {
         return this.graph;
-    }
-
-    public void outputDOTGraph(String filePath) {
-        File file = new File(filePath);
-
-        try (PrintWriter writer = new PrintWriter(file)) {
-            writer.println("digraph G {");
-            for (DefaultEdge edge : graph.edgeSet()) {
-                String source = graph.getEdgeSource(edge);
-                String target = graph.getEdgeTarget(edge);
-                writer.println("    " + source + " -> " + target + ";");
-            }
-            writer.println("}");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void outputGraphics(String dotPath, String pngPath) throws IOException {
@@ -255,40 +189,30 @@ public class GraphParser {
         try {
             process.waitFor();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An exception occurred", e);
         }
     }
 
-    public static void main(String[] args) throws Exception{
-
-        System.out.println("");
-
+    public static void main(String[] args) {
         GraphParser parser = new GraphParser();
-        parser.parseGraph("input.dot");
+        parser.parseGraph("input2.dot");
 
-        parser.outputGraph("output.txt");
+        // BFS
+        Path resBfs = parser.graphSearch("a", "c", Algorithm.BFS);
+        System.out.println("BFS find path:" + resBfs);
 
-        System.out.println(parser.toString());
+        // DFS
+        Path resDfs = parser.graphSearch("a", "c", Algorithm.DFS);
+        System.out.println("DFS find path:" + resDfs);
 
-        // Add a single node
-        parser.addNode("X");
-
-        // Add a list of nodes
-        String[] newNodes = {"Y", "Z", "X"}; // "X" is a duplicate
-        parser.addNodes(newNodes);
-
-        System.out.println(parser.toString());
-
-
-        // Add a single edge
-        parser.addEdge("X", "Y");
-        parser.addEdge("X", "Y"); // This will print a message about a duplicate edge
-
-        System.out.println(parser.toString());
-
-        parser.outputDOTGraph("output.dot");
-
-        parser.outputGraphics("output.dot", "output.png");
-
+        // Random walk
+        Path res = parser.graphSearch("a", "c", Algorithm.RANDOM);
+        System.out.println("Path:" + res);
+        System.out.println("--------------------------------");
+        Path res2 = parser.graphSearch("a", "c", Algorithm.RANDOM);
+        System.out.println("Path:" + res2);
+        System.out.println("--------------------------------");
+        Path res3 = parser.graphSearch("a", "c", Algorithm.RANDOM);
+        System.out.println("Path:" + res3);
     }
 }

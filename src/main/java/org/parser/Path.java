@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public class Path {
-    private List<String> nodes;
+    private final List<String> nodes;
 
     public Path() {
         this.nodes = new ArrayList<>();

@@ -168,7 +168,7 @@ public class GraphParserTest {
         parser.parseGraph(inputFilePath); // Load the test graph
         // Execute the outputDOTGraph method
         String outputFilePath = System.getProperty("user.dir")  + "/src/test/resources/output.dot";
-        parser.outputDOTGraph(outputFilePath);
+        parser.outputGraph(outputFilePath);
 
         // Read the actual output from the generated "output.dot" file
         String actualOutput = readFileContent(outputFilePath);
